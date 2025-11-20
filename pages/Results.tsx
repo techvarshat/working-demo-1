@@ -144,12 +144,8 @@ const Results: React.FC = () => {
           )}
         </div>
       </div>
-      {/* Open Library sidebar inserted here, right of videos on desktop, below on mobile */}
-      <aside id="openlib-section" aria-label="Recommended books">
-        <h2 className="openlib-title">Recommended Books</h2>
-        <div id="openlib-results" className="openlib-results" role="list"></div>
-        <p id="openlib-empty" className="openlib-empty hidden">No book results found.</p>
-      </aside>
+      {/* Google Books sidebar will be rendered outside main content for fixed right alignment */}
+      <div id="recommended-books-sidebar"></div>
     </div>
   );
 };
