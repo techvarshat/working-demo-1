@@ -5,6 +5,12 @@ import { StarIcon, EyeIcon, SparklesIcon, TrophyIcon } from '../components/IconC
 import { searchYouTubeVideos, YouTubeVideo } from '../services/youtubeService';
 // Gutendex and EbookModal imports removed
 
+declare global {
+  interface Window {
+    updateOpenLibraryResults?: (query: string) => void;
+  }
+}
+
 // Helper function to parse views string to number
 const parseViews = (views: string): number => {
   const match = views.match(/(\d+(?:\.\d+)?)([KM]?)/);
@@ -73,6 +79,10 @@ const Results: React.FC = () => {
         setVideos(fetchedVideos);
         setLoading(false);
       });
+      // Open Library integration: fetch books for the same query
+      if (typeof window !== 'undefined' && typeof window.updateOpenLibraryResults === 'function') {
+        window.updateOpenLibraryResults(query);
+      }
     }
   }, [query]);
 
@@ -94,48 +104,54 @@ const Results: React.FC = () => {
   const filteredResults = sortedVideos;
 
   return (
-    <div className="space-y-8">
-      <div>
+    <div className="space-y-8 flex flex-col lg:flex-row items-start">
+      <div className="flex-1 min-w-0">
         <Link to="/search" className="text-sm text-white/60 hover:text-white">&larr; Back to Search</Link>
         <h1 className="text-3xl md:text-4xl font-bold mt-2">Results for "{query}"</h1>
-      </div>
 
-      {/* Gutendex modal and button removed */}
-
-      {loading ? (
-        <div className="flex justify-center py-8">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
-        </div>
-      ) : filteredResults.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredResults.map(resource => (
-            <ResourceCard key={resource.id} resource={resource} />
-          ))}
-        </div>
-      ) : (
-        <Card className="p-8 text-center">
-            <h2 className="text-xl font-bold mb-2">No Results Found</h2>
-            <p className="text-white/70">Try searching for another topic or skill.</p>
-        </Card>
-      )}
-
-      {/* Top Videos Section */}
-      <div>
-        <h2 className="text-2xl md:text-3xl font-bold mb-4">Top Videos</h2>
         {loading ? (
           <div className="flex justify-center py-8">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
           </div>
-        ) : (
-          <div className="flex overflow-x-auto space-x-4 pb-4">
-            {topVideos.map(resource => (
-              <div key={resource.id} className="flex-shrink-0 w-64">
-                <ResourceCard resource={resource} />
-              </div>
+        ) : filteredResults.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {filteredResults.map(resource => (
+              <ResourceCard key={resource.id} resource={resource} />
             ))}
           </div>
+        ) : (
+          <Card className="p-8 text-center">
+              <h2 className="text-xl font-bold mb-2">No Results Found</h2>
+              <p className="text-white/70">Try searching for another topic or skill.</p>
+          </Card>
         )}
+
+        {/* Top Videos Section */}
+        <div>
+          <h2 className="text-2xl md:text-3xl font-bold mb-4">Top Videos</h2>
+          {loading ? (
+            <div className="flex justify-center py-8">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+            </div>
+          ) : (
+            <div className="flex overflow-x-auto space-x-4 pb-4">
+              {topVideos.map(resource => (
+                <div key={resource.id} className="flex-shrink-0 w-64">
+                  <ResourceCard resource={resource} />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
+      {/* Open Library sidebar inserted here, right of videos on desktop, below on mobile */}
+      <aside id="openlib-section" aria-label="Recommended books">
+        <h2 className="openlib-title">Recommended Books</h2>
+        <div id="openlib-results" className="openlib-results" role="list"></div>
+        <div id="openlib-footer" className="openlib-footer">
+          <button id="openlib-load-more" className="hidden">Load more</button>
+        </div>
+      </aside>
     </div>
   );
 };
