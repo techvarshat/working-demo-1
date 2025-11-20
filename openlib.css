@@ -1,74 +1,80 @@
-/* openlib.css (minimal, responsive, clean) */
+/* Dark Sidebar for Open Library */
 #openlib-section {
-  width: 300px;
-  padding: 12px;
+  width: 320px;
+  padding: 16px;
   box-sizing: border-box;
-  border-left: 1px solid #e6e6e6;
-  background: #fff;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: #111;        /* dark background */
+  color: #fff;             /* white readable text */
+  border-left: 1px solid #222;
+  font-family: system-ui, sans-serif;
 }
 
 .openlib-title {
-  margin: 0 0 10px 0;
-  font-size: 16px;
+  margin: 0 0 12px 0;
+  font-size: 18px;
   font-weight: 600;
+  color: #fff;
 }
 
 .openlib-results {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
   max-height: calc(100vh - 160px);
   overflow-y: auto;
-  padding-right: 4px;
+}
+
+.openlib-empty {
+  font-size: 14px;
+  padding-top: 10px;
+  color: #bbb;
 }
 
 .openlib-item {
   display: flex;
-  gap: 10px;
-  align-items: flex-start;
-  border: 1px solid #f0f0f0;
-  padding: 8px;
-  border-radius: 6px;
-  background: #fafafa;
+  gap: 12px;
+  padding: 10px;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 8px;
 }
 
 .openlib-cover {
-  width: 50px;
-  height: 75px;
+  width: 55px;
+  height: 80px;
   object-fit: cover;
-  border-radius: 3px;
-  flex-shrink: 0;
+  border-radius: 4px;
 }
 
 .openlib-meta h3 {
-  margin: 0 0 6px 0;
-  font-size: 13px;
-  line-height: 1.15;
+  margin: 0;
+  font-size: 14px;
+  color: #fff;
+  line-height: 1.2;
 }
 
 .openlib-meta p {
-  margin: 0;
-  font-size: 12px;
-  color: #555;
+  margin: 4px 0;
+  font-size: 13px;
+  color: #ccc;
 }
 
 .openlib-meta a {
-  display: inline-block;
-  margin-top: 6px;
-  font-size: 12px;
+  font-size: 13px;
+  color: #4da6ff;
   text-decoration: none;
-  color: #0b66ff;
 }
 
-.hidden { display: none !important; }
+.hidden {
+  display: none !important;
+}
 
-/* Responsive: stack below videos on small screens */
+/* Responsive: stack under YouTube area */
 @media (max-width: 768px) {
   #openlib-section {
     width: 100%;
-    border-left: none;
-    border-top: 1px solid #e6e6e6;
     margin-top: 12px;
+    border-left: none;
+    border-top: 1px solid #222;
   }
 }

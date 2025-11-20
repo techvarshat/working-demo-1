@@ -148,9 +148,7 @@ const Results: React.FC = () => {
       <aside id="openlib-section" aria-label="Recommended books">
         <h2 className="openlib-title">Recommended Books</h2>
         <div id="openlib-results" className="openlib-results" role="list"></div>
-        <div id="openlib-footer" className="openlib-footer">
-          <button id="openlib-load-more" className="hidden">Load more</button>
-        </div>
+        <p id="openlib-empty" className="openlib-empty hidden">No book results found.</p>
       </aside>
     </div>
   );
