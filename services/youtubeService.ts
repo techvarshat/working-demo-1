@@ -31,36 +31,41 @@ export const searchYouTubeVideos = async (query: string): Promise<YouTubeVideo[]
 
     const detailsResponse = await axios.get(`${BASE_URL}/videos`, {
       params: {
-        part: 'snippet,statistics',
+        part: 'snippet,statistics,contentDetails', // Include contentDetails for duration
         id: videoIds,
         key: API_KEY,
       },
     });
 
-    const videos = detailsResponse.data.items.map((item: any) => {
-      const views = parseInt(item.statistics.viewCount) || 0;
-      const likes = parseInt(item.statistics.likeCount) || 0;
-      const dislikes = parseInt(item.statistics.dislikeCount) || 0;
+    const videos = detailsResponse.data.items
+      .filter((item: any) => {
+        const duration = parseDuration(item.contentDetails.duration);
+        return duration >= 10; // Filter out videos shorter than 10 minutes
+      })
+      .map((item: any) => {
+        const views = parseInt(item.statistics.viewCount) || 0;
+        const likes = parseInt(item.statistics.likeCount) || 0;
+        const dislikes = parseInt(item.statistics.dislikeCount) || 0;
 
-      // Calculate rating based on engagement
-      const viewScore = Math.min(views / 1000000, 1) * 4;
-      const likeScore = Math.min(likes / 100000, 1) * 3;
-      const engagementScore = (likes / (likes + dislikes + 1)) * 3;
+        // Calculate rating based on engagement
+        const viewScore = Math.min(views / 1000000, 1) * 4;
+        const likeScore = Math.min(likes / 100000, 1) * 3;
+        const engagementScore = (likes / (likes + dislikes + 1)) * 3;
 
-      const rating = Math.round((viewScore + likeScore + engagementScore) * 10) / 10;
+        const rating = Math.round((viewScore + likeScore + engagementScore) * 10) / 10;
 
-      return {
-        id: item.id,
-        title: item.snippet.title,
-        thumbnail: item.snippet.thumbnails.medium.url,
-        views: formatViews(views),
-        rating: Math.min(rating, 10),
-        provider: 'YouTube',
-        category: 'General',
-        aiSummary: `Watch ${item.snippet.title} on YouTube.`,
-        url: `https://www.youtube.com/watch?v=${item.id}`,
-      };
-    });
+        return {
+          id: item.id,
+          title: item.snippet.title,
+          thumbnail: item.snippet.thumbnails.medium.url,
+          views: formatViews(views),
+          rating: Math.min(rating, 10),
+          provider: 'YouTube',
+          category: 'General',
+          aiSummary: `Watch ${item.snippet.title} on YouTube.`,
+          url: `https://www.youtube.com/watch?v=${item.id}`,
+        };
+      });
 
     // Sort by rating descending
     videos.sort((a, b) => b.rating - a.rating);
