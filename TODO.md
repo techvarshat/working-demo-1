@@ -1,8 +1,9 @@
 # TODO: Push project to GitHub
 
-- [ ] Check git status
-- [ ] Initialize git if not done
-- [ ] Add remote origin
-- [ ] Add all files
-- [ ] Commit changes
-- [ ] Push to main branch
+- [x] Check git status
+- [x] Initialize git if not done
+- [x] Add remote origin
+- [x] Add all files
+- [x] Commit changes
+- [x] Update remote to new URL
+- [x] Push to main branch
