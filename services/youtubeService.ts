@@ -42,12 +42,20 @@ export const searchYouTubeVideos = async (query: string): Promise<YouTubeVideo[]
         const title = item.snippet.title.toLowerCase();
         const description = item.snippet.description.toLowerCase();
 
-        // Filter for educational content based on keywords in title or description
+        // Filter for videos that teach the input skill and exclude irrelevant content
         const educationalKeywords = [
-          'learn', 'tutorial', 'how to', 'guide', 'education', 'teaching', 'training', 'course', 'study', 'lesson'
+          'learn', 'tutorial', 'how to', 'guide', 'education', 'teaching', 'training', 'course', 'study', 'lesson',
+          'skill', 'master', 'improve', 'develop', 'practice'
         ];
 
-        return educationalKeywords.some(keyword => title.includes(keyword) || description.includes(keyword));
+        const exclusionKeywords = [
+          'funny', 'prank', 'meme', 'music', 'song', 'dance', 'entertainment', 'comedy', 'reaction'
+        ];
+
+        const isEducational = educationalKeywords.some(keyword => title.includes(keyword) || description.includes(keyword));
+        const isExcluded = exclusionKeywords.some(keyword => title.includes(keyword) || description.includes(keyword));
+
+        return isEducational && !isExcluded;
       })
       .map((item: any) => {
         const views = parseInt(item.statistics.viewCount) || 0;
