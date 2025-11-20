@@ -3,8 +3,7 @@ import { useSearchParams, Link } from 'react-router-dom';
 import Card from '../components/Card';
 import { StarIcon, EyeIcon, SparklesIcon, TrophyIcon } from '../components/IconComponents';
 import { searchYouTubeVideos, YouTubeVideo } from '../services/youtubeService';
-import { searchGutendexBooks, EbookResult } from '../services/gutendexService';
-import EbookModal from '../components/EbookModal';
+// Gutendex and EbookModal imports removed
 
 // Helper function to parse views string to number
 const parseViews = (views: string): number => {
@@ -65,26 +64,14 @@ const Results: React.FC = () => {
   const query = searchParams.get('q') || '';
   const [videos, setVideos] = useState<YouTubeVideo[]>([]);
   const [loading, setLoading] = useState(false);
-  const [ebooks, setEbooks] = useState<EbookResult[]>([]);
-  const [ebookModalOpen, setEbookModalOpen] = useState(false);
-  const [ebooksLoading, setEbooksLoading] = useState(false);
-  const [ebooksLoadedOnce, setEbooksLoadedOnce] = useState(false);
+  // Gutendex and EbookModal state removed
 
   useEffect(() => {
     if (query) {
       setLoading(true);
-      setEbooksLoading(true);
-      setEbooksLoadedOnce(false);
-      Promise.all([
-        searchYouTubeVideos(query),
-        searchGutendexBooks(query)
-      ]).then(([fetchedVideos, fetchedEbooks]) => {
+      searchYouTubeVideos(query).then((fetchedVideos) => {
         setVideos(fetchedVideos);
-        setEbooks(fetchedEbooks);
         setLoading(false);
-        setEbooksLoading(false);
-        setEbookModalOpen(true); // Show modal automatically after both load
-        setEbooksLoadedOnce(true);
       });
     }
   }, [query]);
@@ -113,15 +100,7 @@ const Results: React.FC = () => {
         <h1 className="text-3xl md:text-4xl font-bold mt-2">Results for "{query}"</h1>
       </div>
 
-      <button
-        className="mb-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold shadow transition-colors"
-        onClick={() => setEbookModalOpen(true)}
-        style={{ display: ebooksLoadedOnce ? 'inline-block' : 'none' }}
-      >
-        View Recommended Free Books
-      </button>
-
-      <EbookModal ebooks={ebooks} open={ebookModalOpen} onClose={() => setEbookModalOpen(false)} />
+      {/* Gutendex modal and button removed */}
 
       {loading ? (
         <div className="flex justify-center py-8">
