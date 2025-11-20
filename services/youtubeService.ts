@@ -37,21 +37,21 @@ export const searchYouTubeVideos = async (query: string): Promise<YouTubeVideo[]
       },
     });
 
+    // Expanded educational keywords from provided JSON
+    const educationalKeywords = [
+      "how to", "tutorial", "step by step", "beginner guide", "for beginners", "training", "learn", "lesson", "basics", "intro", "introduction", "techniques", "tips and tricks", "practice", "walkthrough", "instruction", "demonstration", "guide", "masterclass", "beginner tutorial", "quick start", "improve skills", "essential skills", "fundamentals", "start here", "best way to learn", "easy method", "simple method", "explained", "in depth", "stepwise", "hands on", "real example", "example based", "detailed tutorial", "expert tips", "complete guide", "full course", "training session", "learning session", "how it works", "how to do", "practice drill", "technique drill", "beginner exercises", "advanced techniques", "problem solving", "common mistakes", "avoid mistakes", "skill development", "professional guide", "beginner friendly", "quicker learning"
+    ];
+
+    const exclusionKeywords = [
+      'funny', 'prank', 'meme', 'music', 'song', 'dance', 'entertainment', 'comedy', 'reaction'
+    ];
+
     const videos = detailsResponse.data.items
       .filter((item: any) => {
         const title = item.snippet.title.toLowerCase();
         const description = item.snippet.description.toLowerCase();
 
-        // Filter for videos that teach the input skill and exclude irrelevant content
-        const educationalKeywords = [
-          'learn', 'tutorial', 'how to', 'guide', 'education', 'teaching', 'training', 'course', 'study', 'lesson',
-          'skill', 'master', 'improve', 'develop', 'practice'
-        ];
-
-        const exclusionKeywords = [
-          'funny', 'prank', 'meme', 'music', 'song', 'dance', 'entertainment', 'comedy', 'reaction'
-        ];
-
+        // Match any educational keyword in title or description
         const isEducational = educationalKeywords.some(keyword => title.includes(keyword) || description.includes(keyword));
         const isExcluded = exclusionKeywords.some(keyword => title.includes(keyword) || description.includes(keyword));
 
