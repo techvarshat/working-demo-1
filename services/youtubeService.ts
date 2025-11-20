@@ -31,7 +31,7 @@ export const searchYouTubeVideos = async (query: string): Promise<YouTubeVideo[]
 
     const detailsResponse = await axios.get(`${BASE_URL}/videos`, {
       params: {
-        part: 'snippet,statistics,contentDetails', // Include contentDetails for duration
+        part: 'snippet,statistics,contentDetails',
         id: videoIds,
         key: API_KEY,
       },
@@ -39,8 +39,15 @@ export const searchYouTubeVideos = async (query: string): Promise<YouTubeVideo[]
 
     const videos = detailsResponse.data.items
       .filter((item: any) => {
-        const duration = parseDuration(item.contentDetails.duration);
-        return duration >= 10; // Filter out videos shorter than 10 minutes
+        const title = item.snippet.title.toLowerCase();
+        const description = item.snippet.description.toLowerCase();
+
+        // Filter for educational content based on keywords in title or description
+        const educationalKeywords = [
+          'learn', 'tutorial', 'how to', 'guide', 'education', 'teaching', 'training', 'course', 'study', 'lesson'
+        ];
+
+        return educationalKeywords.some(keyword => title.includes(keyword) || description.includes(keyword));
       })
       .map((item: any) => {
         const views = parseInt(item.statistics.viewCount) || 0;
@@ -61,7 +68,7 @@ export const searchYouTubeVideos = async (query: string): Promise<YouTubeVideo[]
           views: formatViews(views),
           rating: Math.min(rating, 10),
           provider: 'YouTube',
-          category: 'General',
+          category: 'Educational',
           aiSummary: `Watch ${item.snippet.title} on YouTube.`,
           url: `https://www.youtube.com/watch?v=${item.id}`,
         };
