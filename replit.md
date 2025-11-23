@@ -18,9 +18,9 @@ SkillScope is an educational resource discovery platform built with React, TypeS
 ## Project Structure
 ```
 /
-├── components/          # React components (Header, Hero, Features, Card, etc.)
+├── components/          # React components (Header, Hero, Features, Card, BookSidebar, etc.)
 ├── pages/              # Page components (Home, Search, Results, Resources, About, Feedback)
-├── services/           # API services (YouTube API integration)
+├── services/           # API services (YouTube, Book APIs integration)
 ├── App.tsx             # Main application component with routing
 ├── index.tsx           # Application entry point
 ├── index.html          # HTML template
@@ -30,6 +30,14 @@ SkillScope is an educational resource discovery platform built with React, TypeS
 ```
 
 ## Recent Changes
+- **2025-11-23**: Book Recommendation Sidebar Feature
+  - Created bookService.ts with fallback logic: Google Books → OpenLibrary → Gutendex
+  - Created BookSidebar component with dark theme styling (#1a1a1a background)
+  - Integrated sidebar into Results page to show book recommendations
+  - Sidebar appears on right side (280px fixed, full height)
+  - Robust error handling with async/await and try/catch/finally
+  - Sidebar updates automatically when search query changes
+
 - **2025-11-23**: Initial Replit setup
   - Configured Vite to run on port 5000 with host 0.0.0.0
   - Enabled `allowedHosts: true` for Replit proxy compatibility
