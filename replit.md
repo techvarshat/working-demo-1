@@ -30,11 +30,26 @@ SkillScope is an educational resource discovery platform built with React, TypeS
 ```
 
 ## Recent Changes
+- **2025-11-23**: Study Timer Feature Added
+  - Created StudyTimer component with floating button (bottom-left)
+  - Timer popup with Start/Pause/Stop/Reset functionality
+  - Session history tracking for completed study sessions
+  - Fully responsive design (works on mobile to desktop)
+  - Premium dark theme with gradient button and hover effects
+  - Integrated globally into App.tsx
+
+- **2025-11-23**: Book Sidebar Refined (Compact & Elegant)
+  - Reduced width from 280px to 230px for cleaner look
+  - Updated to premium dark theme (#141414 background, #2a2a2a borders)
+  - Added soft shadow and hover effects on book cards
+  - Improved typography with smaller, cleaner fonts
+  - Bottom padding to prevent chatbot icon overlap
+  - Maintains all API fallback functionality
+
 - **2025-11-23**: Book Recommendation Sidebar Feature
   - Created bookService.ts with fallback logic: Google Books → OpenLibrary → Gutendex
-  - Created BookSidebar component with dark theme styling (#1a1a1a background)
+  - Created BookSidebar component with dark theme styling
   - Integrated sidebar into Results page to show book recommendations
-  - Sidebar appears on right side (280px fixed, full height)
   - Robust error handling with async/await and try/catch/finally
   - Sidebar updates automatically when search query changes
 
