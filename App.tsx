@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Header from './components/Header';
+import StudyTimer from './components/StudyTimer';
 import Home from './pages/Home';
 import Search from './pages/Search';
 import Results from './pages/Results';
@@ -27,6 +28,7 @@ const App: React.FC = () => {
           <Route path="/feedback" element={<Feedback />} />
         </Routes>
       </main>
+      <StudyTimer />
     </div>
   );
 };

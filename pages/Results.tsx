@@ -95,7 +95,7 @@ const Results: React.FC = () => {
 
   return (
     <>
-      <div className="space-y-8 mr-[300px]">
+      <div className="space-y-8 mr-[250px]">
         <div className="flex-1 min-w-0">
           <Link to="/search" className="text-sm text-white/60 hover:text-white">&larr; Back to Search</Link>
           <h1 className="text-3xl md:text-4xl font-bold mt-2">Results for "{query}"</h1>
